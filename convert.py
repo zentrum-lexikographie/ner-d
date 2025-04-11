@@ -11,14 +11,14 @@ corpus_dir = project_dir / "corpus"
 ner_dir = corpus_dir / "ner"
 ner_dir.mkdir(parents=True, exist_ok=True)
 
-# convert GermEval
-msg.divider("Preprocessing GermEval")
 
 doc_bins = {
     "train": DocBin(store_user_data=True),
     "dev": DocBin(store_user_data=True),
     "test": DocBin(store_user_data=True),
 }
+
+msg.divider("Preprocessing GermEval")
 
 germeval_splits = {
     "train": assets_dir / "NER-de-train.tsv",
@@ -48,6 +48,7 @@ for bucket, file in germeval_splits.items():
     db = DocBin(docs=docs, store_user_data=True)
     doc_bins[bucket].merge(db)
 
+msg.divider("Save splits to .spacy format")
 # save splits to spacy doc format
 for bucket, doc_bin in doc_bins.items():
     target_file = ner_dir / f"{bucket}.spacy"
