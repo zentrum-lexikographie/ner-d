@@ -1,3 +1,4 @@
+import re
 import os
 from pathlib import Path
 from spacy.tokens import DocBin
@@ -37,8 +38,11 @@ def iter_germeval(file):
                 data.append(line)
             else:
                 line = line.split()
-                data.append(" ".join(line[1:]))
-    return "\n".join(data)
+                data.append(" ".join(line[1:3]))
+    data = "\n".join(data)
+    # remove *part from tags
+    re.sub(r"(LOC|PER|MISC|ORG)(deriv|part)", r"\1", data)
+    return data
 
 
 for bucket, file in germeval_splits.items():
