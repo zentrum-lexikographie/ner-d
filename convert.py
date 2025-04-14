@@ -51,7 +51,7 @@ def iter_germeval(file):
 
 for bucket, file in germeval_splits.items():
     docs = conll_ner_to_docs(
-        iter_germeval(file), n_sents=1, merge_subtokens=True, no_print=True
+        iter_germeval(file), n_sents=32, merge_subtokens=True, no_print=True
     )
     db = DocBin(docs=docs, store_user_data=True)
     doc_bins[bucket].merge(db)
@@ -109,7 +109,7 @@ def iter_smartdata(file, tag_mapping):
 for bucket, file in smartdata_splits.items():
     docs = conll_ner_to_docs(
         iter_smartdata(file, SMARTDATA_TO_CONLL),
-        n_sents=1,
+        n_sents=32,
         merge_subtokens=True,
         no_print=True,
     )
