@@ -175,6 +175,40 @@ for bucket, file in arendt_splits.items():
     db = DocBin(docs=docs, store_user_data=True)
     doc_bins[bucket].merge(db)
 
+msg.divider("Preprocessing HisGermaNER")
+
+hisGermaNER_splits = {
+    "train": assets_dir / "HisGermaNER_v0_train.tsv",
+    "dev": assets_dir / "HisGermaNER_v0_dev.tsv",
+    "test": assets_dir / "HisGermaNER_v0_test.tsv",
+}
+
+
+def iter_his_german_ner(file):
+    data = []
+    with file.open() as f:
+        for line in f:
+            if line.startswith("#") or line.startswith("TOKEN") or "DOCSTART" in line:
+                continue
+            elif not line.strip():
+                data.append(line)
+            else:
+                line = line.split()
+                data.append(" ".join(line[0:2]))
+    data = "\n".join(data)
+    return data
+
+
+for bucket, file in hisGermaNER_splits.items():
+    docs = conll_ner_to_docs(
+        iter_his_german_ner(file),
+        n_sents=32,
+        merge_subtokens=True,
+        no_print=True,
+    )
+    db = DocBin(docs=docs, store_user_data=True)
+    doc_bins[bucket].merge(db)
+
 msg.divider("Save splits to .spacy format")
 # save splits to spacy doc format
 for bucket, doc_bin in doc_bins.items():

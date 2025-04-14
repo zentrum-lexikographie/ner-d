@@ -20,3 +20,8 @@ wget -c "https://raw.githubusercontent.com/NEISSproject/NERDatasets/refs/heads/m
 wget -c "https://raw.githubusercontent.com/NEISSproject/NERDatasets/refs/heads/main/Arendt/test_arendt.conll" -O assets/test_arendt.conll
 wget -c "https://raw.githubusercontent.com/NEISSproject/NERDatasets/refs/heads/main/Arendt/train_arendt.conll" -O assets/train_arendt.conll
 wget -c "https://raw.githubusercontent.com/NEISSproject/NERDatasets/refs/heads/main/Arendt/dev_arendt.conll" -O assets/dev_arendt.conll
+
+# hisGermanNER
+wget -c "https://huggingface.co/datasets/stefan-it/HisGermaNER/resolve/main/splits/HisGermaNER_v0_dev.tsv" -O assets/HisGermaNER_v0_dev.tsv
+wget -c "https://huggingface.co/datasets/stefan-it/HisGermaNER/resolve/main/splits/HisGermaNER_v0_test.tsv" -O assets/HisGermaNER_v0_test.tsv
+wget -c "https://huggingface.co/datasets/stefan-it/HisGermaNER/resolve/main/splits/HisGermaNER_v0_train.tsv" -O assets/HisGermaNER_v0_train.tsv
