@@ -116,6 +116,65 @@ for bucket, file in smartdata_splits.items():
     db = DocBin(docs=docs, store_user_data=True)
     doc_bins[bucket].merge(db)
 
+
+def iter_neiss_data(file, tag_mapping):
+    data = []
+    with file.open() as f:
+        data = f.read()
+        tag_substitution_pattern = re.compile(
+            "(%s)" % "|".join(map(re.escape, tag_mapping.keys()))
+        )
+        return tag_substitution_pattern.sub(lambda x: tag_mapping[x.group()], data)
+
+
+msg.divider("Preprocessing Sturm Edition")
+
+sturm_ed_splits = {
+    "train": assets_dir / "train_sturm.conll",
+    "dev": assets_dir / "dev_sturm.conll",
+    "test": assets_dir / "test_sturm.conll",
+}
+STURM_TO_CONLL = {"pers": "PER", "place": "LOC", "B-date": "O", "I-date": "O"}
+
+
+for bucket, file in sturm_ed_splits.items():
+    docs = conll_ner_to_docs(
+        iter_neiss_data(file, STURM_TO_CONLL),
+        n_sents=32,
+        merge_subtokens=True,
+        no_print=True,
+    )
+    db = DocBin(docs=docs, store_user_data=True)
+    doc_bins[bucket].merge(db)
+
+msg.divider("Preprocessing Arendt Edition")
+
+arendt_splits = {
+    "train": assets_dir / "train_arendt.conll",
+    "dev": assets_dir / "dev_arendt.conll",
+    "test": assets_dir / "test_arendt.conll",
+}
+ARENDT_TO_CONLL = {
+    "I-date": "O",
+    "B-date": "O",
+    "person": "PER",
+    "ethnicity": "MISC",
+    "organization": "ORG",
+    "place": "LOC",
+    "event": "MISC",
+    "I-language": "O",
+    "B-language": "O",
+}
+for bucket, file in arendt_splits.items():
+    docs = conll_ner_to_docs(
+        iter_neiss_data(file, ARENDT_TO_CONLL),
+        n_sents=32,
+        merge_subtokens=True,
+        no_print=True,
+    )
+    db = DocBin(docs=docs, store_user_data=True)
+    doc_bins[bucket].merge(db)
+
 msg.divider("Save splits to .spacy format")
 # save splits to spacy doc format
 for bucket, doc_bin in doc_bins.items():
