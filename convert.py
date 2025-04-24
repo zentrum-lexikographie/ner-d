@@ -86,10 +86,16 @@ SMARTDATA_TO_CONLL = {
 
 def iter_smartdata(file, tag_mapping):
     tokens = []
+    symbols_pattern = re.compile(
+        r"[\u1F600-\u1F64F\u1F680-\u1F6FF\u1F900-\u1F9FF\u1FA70-\u1FAFF\u1F300-\u1F5FF]"
+    )
     with gzip.open(file) as fh:
         data = jsonstream.loads(fh.read())
         for doc in data:
             text = doc["text"]["string"]
+            # skip sentence if it contains emojis and symbols
+            if symbols_pattern.search(text):
+                continue
             for token in doc["tokens"]["array"]:
                 start = token["span"]["start"]
                 end = token["span"]["end"]

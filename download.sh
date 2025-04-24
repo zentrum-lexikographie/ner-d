@@ -25,3 +25,8 @@ wget -c "https://raw.githubusercontent.com/NEISSproject/NERDatasets/refs/heads/m
 wget -c "https://huggingface.co/datasets/stefan-it/HisGermaNER/resolve/main/splits/HisGermaNER_v0_dev.tsv" -O assets/HisGermaNER_v0_dev.tsv
 wget -c "https://huggingface.co/datasets/stefan-it/HisGermaNER/resolve/main/splits/HisGermaNER_v0_test.tsv" -O assets/HisGermaNER_v0_test.tsv
 wget -c "https://huggingface.co/datasets/stefan-it/HisGermaNER/resolve/main/splits/HisGermaNER_v0_train.tsv" -O assets/HisGermaNER_v0_train.tsv
+
+# CLEF HIPE
+wget -c "https://raw.githubusercontent.com/impresso/CLEF-HIPE-2020/refs/heads/master/data/v1.4/de/HIPE-data-v1.4-dev-de.tsv" -O assets/HIPE-data-v1.4-dev-de.tsv
+wget -c "https://raw.githubusercontent.com/impresso/CLEF-HIPE-2020/refs/heads/master/data/v1.4/de/HIPE-data-v1.4-train-de.tsv" -O assets/HIPE-data-v1.4-train-de.tsv
+wget -c "https://raw.githubusercontent.com/impresso/CLEF-HIPE-2020/refs/heads/master/data/v1.4/de/HIPE-data-v1.4-test-de.tsv" -O assets/HIPE-data-v1.4-test-de.tsv
