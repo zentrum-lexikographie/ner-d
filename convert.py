@@ -171,6 +171,7 @@ ARENDT_TO_CONLL = {
     "I-language": "O",
     "B-language": "O",
 }
+
 for bucket, file in arendt_splits.items():
     docs = conll_ner_to_docs(
         iter_neiss_data(file, ARENDT_TO_CONLL),
@@ -208,6 +209,52 @@ def iter_his_german_ner(file):
 for bucket, file in hisGermaNER_splits.items():
     docs = conll_ner_to_docs(
         iter_his_german_ner(file),
+        n_sents=32,
+        merge_subtokens=True,
+        no_print=True,
+    )
+    db = DocBin(docs=docs, store_user_data=True)
+    doc_bins[bucket].merge(db)
+
+msg.divider("Preprocessing CLEF HIPE")
+
+hipe_splits = {
+    "train": assets_dir / "HIPE-data-v1.4-train-de.tsv",
+    "dev": assets_dir / "HIPE-data-v1.4-dev-de.tsv",
+    "test": assets_dir / "HIPE-data-v1.4-test-de.tsv",
+}
+HIPE_TO_CONLL = {
+    "loc": "LOC",
+    "pers": "PER",
+    "org": "ORG",
+    "prod": "MISC",
+    "time": "O",
+    "date": "O",
+}
+
+
+def iter_hipe(file, tag_mapping):
+    with file.open() as fh:
+        tokens = []
+        for line in fh:
+            if line.startswith("TOKEN") or line.startswith("#") or not line.strip():
+                continue
+            line_data = line.strip().split()
+            tokens.append("\t".join(line_data[:2]))
+            misc = set(line_data[9].split("|"))
+            if "PySBDSegment" in misc:
+                tokens.append("\n")
+        data = "\n".join(tokens)
+        tag_substitution_pattern = re.compile(
+            "(%s)" % "|".join(map(re.escape, tag_mapping.keys()))
+        )
+        data = tag_substitution_pattern.sub(lambda x: tag_mapping[x.group()], data)
+    return data
+
+
+for bucket, file in hipe_splits.items():
+    docs = conll_ner_to_docs(
+        iter_hipe(file, HIPE_TO_CONLL),
         n_sents=32,
         merge_subtokens=True,
         no_print=True,
