@@ -57,6 +57,7 @@ for bucket, file in germeval_splits.items():
     )
     db = DocBin(docs=docs, store_user_data=True)
     doc_bins[bucket].merge(db)
+    msg.info(f"{len(db)} documents (~{len(db)*32} sentences) in {bucket}.")
 
 msg.divider("Preprocessing SmartData")
 
@@ -125,6 +126,7 @@ for bucket, file in smartdata_splits.items():
     )
     db = DocBin(docs=docs, store_user_data=True)
     doc_bins[bucket].merge(db)
+    msg.info(f"{len(db)} documents (~{len(db)*32} sentences) in {bucket}.")
 
 
 def iter_neiss_data(file, tag_mapping):
@@ -156,6 +158,7 @@ for bucket, file in sturm_ed_splits.items():
     )
     db = DocBin(docs=docs, store_user_data=True)
     doc_bins[bucket].merge(db)
+    msg.info(f"{len(db)} documents (~{len(db)*32} sentences) in {bucket}.")
 
 msg.divider("Preprocessing Arendt Edition")
 
@@ -185,6 +188,7 @@ for bucket, file in arendt_splits.items():
     )
     db = DocBin(docs=docs, store_user_data=True)
     doc_bins[bucket].merge(db)
+    msg.info(f"{len(db)} documents (~{len(db)*32} sentences) in {bucket}.")
 
 msg.divider("Preprocessing HisGermaNER")
 
@@ -219,6 +223,7 @@ for bucket, file in hisGermaNER_splits.items():
     )
     db = DocBin(docs=docs, store_user_data=True)
     doc_bins[bucket].merge(db)
+    msg.info(f"{len(db)} documents (~{len(db)*32} sentences) in {bucket}.")
 
 msg.divider("Preprocessing CLEF HIPE")
 
@@ -264,6 +269,7 @@ for bucket, file in hipe_splits.items():
         no_print=True,
     )
     db = DocBin(docs=docs, store_user_data=True)
+    msg.info(f"{len(db)} documents (~{len(db)*32} sentences) in {bucket}.")
     doc_bins[bucket].merge(db)
 
 msg.divider("Preprocessing MobIE dataset")
@@ -365,5 +371,6 @@ for bucket, file in newseye_split.items():
 msg.divider("Save splits to .spacy format")
 # save splits to spacy doc format
 for bucket, doc_bin in doc_bins.items():
+    msg.info(f"{len(doc_bin)} documents (~{len(doc_bin)*32} sentences) in {bucket}.")
     target_file = ner_dir / f"{bucket}.spacy"
     target_file.write_bytes(doc_bin.to_bytes())
