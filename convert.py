@@ -87,7 +87,8 @@ SMARTDATA_TO_CONLL = {
 def iter_smartdata(file, tag_mapping):
     tokens = []
     symbols_pattern = re.compile(
-        r"[\u1F600-\u1F64F\u1F680-\u1F6FF\u1F900-\u1F9FF\u1FA70-\u1FAFF\u1F300-\u1F5FF]"
+        "[\U0001F600-\U0001F64F\U0001F680-\U0001F6FF\U0001F900-\U0001F9FF\U0001FA70-\U0001FAFF\U0001F300-\U0001F5FF]",
+        re.UNICODE,
     )
     with gzip.open(file) as fh:
         data = jsonstream.loads(fh.read())
@@ -100,6 +101,7 @@ def iter_smartdata(file, tag_mapping):
                 start = token["span"]["start"]
                 end = token["span"]["end"]
                 tok = text[start:end]
+                tok = re.sub(r"\s", "", tok)
                 tags = token["ner"]["string"].split("-", 1)
                 if len(tags) == 2:
                     iob, ent = tags
