@@ -1,6 +1,8 @@
 import gzip
-import re
+import io
 import os
+import re
+import zipfile
 from pathlib import Path
 
 import jsonstream
@@ -322,6 +324,42 @@ for bucket, file in mobie_split.items():
         no_print=True,
     )
     db = DocBin(docs=docs, store_user_data=True)
+    doc_bins[bucket].merge(db)
+
+
+msg.divider("Preprocessing newseye dataset")
+newseye_split = {
+    "train": "NewsEye-GT-NER_EL_StD-v1/NewsEye-German/train.tsv",
+    "dev": "NewsEye-GT-NER_EL_StD-v1/NewsEye-German/dev.tsv",
+    "test": "NewsEye-GT-NER_EL_StD-v1/NewsEye-German/test.tsv",
+}
+
+
+def process_newseye(file):
+    with zipfile.ZipFile("assets/newseye.zip") as z:
+        with io.TextIOWrapper(z.open(file), encoding="utf-8") as f:
+            tokens = []
+            for line in f:
+                if line.startswith("Token\tTag\t") or line.startswith("#"):
+                    continue
+                if not line.strip():
+                    tokens.append(line)
+                else:
+                    line_data = line.strip().split("\t", 2)
+                    token, tag, _ = line_data
+                    tokens.append("\t".join([token, tag]))
+        return "\n".join(tokens)
+
+
+for bucket, file in newseye_split.items():
+    docs = conll_ner_to_docs(
+        process_newseye(file),
+        n_sents=32,
+        merge_subtokens=True,
+        no_print=True,
+    )
+    db = DocBin(docs=docs, store_user_data=True)
+    msg.info(f"{len(db)} documents (~{len(db)*32} sentences) in {bucket}.")
     doc_bins[bucket].merge(db)
 
 msg.divider("Save splits to .spacy format")

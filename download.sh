@@ -34,3 +34,6 @@ wget -c "https://raw.githubusercontent.com/impresso/CLEF-HIPE-2020/refs/heads/ma
 # mobie
 wget -c "https://github.com/DFKI-NLP/MobIE/raw/refs/heads/master/v1_20210811/ner_conll03_formatted.zip" -O assets/mobie.zip
 unzip assets/mobie.zip -d assets/
+
+# newseye
+wget -c "https://zenodo.org/records/4573313/files/NewsEye-GT-NER_EL_StD-v1.zip?download=1" -O assets/newseye.zip
