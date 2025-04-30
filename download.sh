@@ -30,3 +30,7 @@ wget -c "https://huggingface.co/datasets/stefan-it/HisGermaNER/resolve/main/spli
 wget -c "https://raw.githubusercontent.com/impresso/CLEF-HIPE-2020/refs/heads/master/data/v1.4/de/HIPE-data-v1.4-dev-de.tsv" -O assets/HIPE-data-v1.4-dev-de.tsv
 wget -c "https://raw.githubusercontent.com/impresso/CLEF-HIPE-2020/refs/heads/master/data/v1.4/de/HIPE-data-v1.4-train-de.tsv" -O assets/HIPE-data-v1.4-train-de.tsv
 wget -c "https://raw.githubusercontent.com/impresso/CLEF-HIPE-2020/refs/heads/master/data/v1.4/de/HIPE-data-v1.4-test-de.tsv" -O assets/HIPE-data-v1.4-test-de.tsv
+
+# mobie
+wget -c "https://github.com/DFKI-NLP/MobIE/raw/refs/heads/master/v1_20210811/ner_conll03_formatted.zip" -O assets/mobie.zip
+unzip assets/mobie.zip -d assets/

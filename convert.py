@@ -262,6 +262,66 @@ for bucket, file in hipe_splits.items():
     db = DocBin(docs=docs, store_user_data=True)
     doc_bins[bucket].merge(db)
 
+msg.divider("Preprocessing MobIE dataset")
+mobie_split = {
+    "train": assets_dir / "train.conll2003",
+    "dev": assets_dir / "dev.conll2003",
+    "test": assets_dir / "test.conll2003",
+}
+
+MOBIE_TO_CONLL = {
+    "date": "O",
+    "disaster-type": "O",
+    "distance": "O",
+    "duration": "O",
+    "location": "LOC",
+    "location-city": "LOC",
+    "location-route": "O",
+    "location-stop": "LOC",
+    "location-street": "LOC",
+    "number": "O",
+    "organization": "ORG",
+    "organization-company": "ORG",
+    "org_position": "O",
+    "person": "PER",
+    "time": "O",
+    "trigger": "O",
+    "event-cause": "O",
+    "money": "O",
+    "percent": "O",
+    "set": "O",
+}
+
+
+def iter_mobie(file, tag_mapping):
+    with file.open() as fh:
+        tokens = []
+        for line in fh:
+            if line.startswith("-DOCSTART-"):
+                continue
+            if not line.strip():
+                tokens.append(line)
+            else:
+                line_data = line.strip().split("\t")
+                tokens.append("\t".join([line_data[0], line_data[-1]]))
+        data = "\n".join(tokens)
+        tag_substitution_pattern = re.compile(
+            r"(%s)(?!-)" % "|".join(map(re.escape, tag_mapping.keys()))
+        )
+        data = tag_substitution_pattern.sub(lambda x: tag_mapping[x.group()], data)
+        return data
+
+
+for bucket, file in mobie_split.items():
+    docs = conll_ner_to_docs(
+        iter_mobie(file, MOBIE_TO_CONLL),
+        n_sents=32,
+        merge_subtokens=True,
+        no_print=True,
+    )
+    db = DocBin(docs=docs, store_user_data=True)
+    doc_bins[bucket].merge(db)
+
 msg.divider("Save splits to .spacy format")
 # save splits to spacy doc format
 for bucket, doc_bin in doc_bins.items():
