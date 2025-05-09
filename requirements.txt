@@ -2,3 +2,4 @@ gdown
 spacy
 wasabi
 jsonstream
+build
