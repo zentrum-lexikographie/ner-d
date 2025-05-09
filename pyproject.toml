@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools"]
+requires = ["setuptools>=66.*"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -16,6 +16,7 @@ classifiers = [
     "Framework :: spaCy",
 ]
 dynamic = ["version", "dependencies"]
+requires-python = ">= 3.11"
 
 [project.optional-dependencies]
 dev = [
