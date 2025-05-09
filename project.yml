@@ -1,0 +1,112 @@
+title: "ner-d"
+description: >
+  This project trains a NER tagger from a collection of German NER datasets.
+  It takes care of data preparation, conversion to spaCy's format,
+  training separate models for GPU (-dist) and CPU (-lg) architectures,
+  as well as evaluation of the trained models.
+  Note that multi-word tokens will be merged together when the
+  corpus is converted since spaCy does not support multi-word token
+  expansion.
+
+directories: ["assets", "configs", "corpus", "metrics", "training", "packages"]
+
+workflows:
+  all:
+    - download
+    - preprocess
+    - train
+
+commands:
+  - name: download
+    help: "Download corpora"
+    script:
+      - "bash ./download.sh"
+    outputs:
+      - "assets/newseye.zip"
+      - "assets/mobie.zip"
+      - "assets/dev_arendt.conll"
+      - "assets/test_arendt.conll"
+      - "assets/train_arendt.conll"
+      - "assets/train_sturm.conll"
+      - "assets/dev_sturm.conll"
+      - "assets/test_sturm.conll"
+      - "assets/HIPE-data-v1.4-dev-de.tsv"
+      - "assets/HIPE-data-v1.4-train-de.tsv"
+      - "assets/HIPE-data-v1.4-test-de.tsv"
+      - "assets/NER-de-dev.tsv"
+      - "assets/NER-de-test.tsv"
+      - "assets/NER-de-train.tsv"
+      - "assets/dev.conll2003"
+      - "assets/test.conll2003"
+      - "assets/train.conll2003"
+      - "assets/HisGermaNER_v0_train.tsv"
+      - "assets/HisGermaNER_v0_dev.tsv"
+      - "assets/HisGermaNER_v0_test.tsv"
+      - "assets/smartdata_dev.json.gz"
+      - "assets/smartdata_train.json.gz"
+      - "assets/smartdata_test.json.gz"
+      - "assets/ner.tgz"
+      - "assets/tags.deu"
+      - "assets/conll03.dev"
+      - "assets/conll03.test"
+      - "assets/conll03.train"
+
+  - name: preprocess
+    help: "Map tag sets to PER/LOC/ORG/MISC tags. Convert to spaCy's data format
+    and aggregate datasets into  one dataset with three partitions: train/dev/test."
+    script:
+      - "python scripts/convert.py"
+    deps:
+      - "assets/newseye.zip"
+      - "assets/mobie.zip"
+      - "assets/dev_arendt.conll"
+      - "assets/test_arendt.conll"
+      - "assets/train_arendt.conll"
+      - "assets/train_sturm.conll"
+      - "assets/dev_sturm.conll"
+      - "assets/test_sturm.conll"
+      - "assets/HIPE-data-v1.4-dev-de.tsv"
+      - "assets/HIPE-data-v1.4-train-de.tsv"
+      - "assets/HIPE-data-v1.4-test-de.tsv"
+      - "assets/NER-de-dev.tsv"
+      - "assets/NER-de-test.tsv"
+      - "assets/NER-de-train.tsv"
+      - "assets/dev.conll2003"
+      - "assets/test.conll2003"
+      - "assets/train.conll2003"
+      - "assets/HisGermaNER_v0_train.tsv"
+      - "assets/HisGermaNER_v0_dev.tsv"
+      - "assets/HisGermaNER_v0_test.tsv"
+      - "assets/smartdata_dev.json.gz"
+      - "assets/smartdata_train.json.gz"
+      - "assets/smartdata_test.json.gz"
+      - "assets/tags.deu"
+      - "assets/conll03.dev"
+      - "assets/conll03.test"
+      - "assets/conll03.train"
+    outputs:
+      - "corpus/dev.spacy"
+      - "corpus/test.spacy"
+      - "corpus/train.spacy"
+      - "corpus/dev_conll03.spacy"
+      - "corpus/test_conll03.spacy"
+      - "corpus/train_conll03.spacy"
+
+  - name: train
+    help: "Train NER models."
+    script:
+      - "python scripts/train.py"
+    deps:
+      - "corpus/train.spacy"
+      - "corpus/dev.spacy"
+      - "corpus/test.spacy"
+      - "corpus/test_conll03.spacy"
+      - "configs/ner-d-lg.cfg"
+      - "configs/ner-d-dist.cfg"
+
+  - name: clean
+    help: "Remove intermediate files"
+    script:
+      - "rm -rf training/*"
+      - "rm -rf metrics/*"
+      - "rm -rf corpus/*"
