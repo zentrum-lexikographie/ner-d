@@ -290,7 +290,7 @@ MOBIE_TO_CONLL = {
     "number": "O",
     "organization": "ORG",
     "organization-company": "ORG",
-    "org_position": "O",
+    "org-position": "O",
     "person": "PER",
     "time": "O",
     "trigger": "O",
@@ -352,6 +352,8 @@ def process_newseye(file):
                 else:
                     line_data = line.strip().split("\t", 2)
                     token, tag, _ = line_data
+                    if tag.endswith("HumanProd"):
+                        tag = "O"
                     tokens.append("\t".join([token, tag]))
         return "\n".join(tokens)
 
