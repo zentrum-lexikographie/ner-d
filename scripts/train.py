@@ -51,8 +51,9 @@ for model_type in model_types:
     package(
         model_path,
         packages_dir,
-        name=f"ner-d_{model_type}",
+        name=f"ner_d_{model_type}",
         version=version,
+        create_wheel=True,
         create_sdist=False,
         force=True,
         silent=False,
