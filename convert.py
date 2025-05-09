@@ -330,6 +330,7 @@ for bucket, file in mobie_split.items():
         no_print=True,
     )
     db = DocBin(docs=docs, store_user_data=True)
+    msg.info(f"{len(db)} documents (~{len(db)*32} sentences) in {bucket}.")
     doc_bins[bucket].merge(db)
 
 
