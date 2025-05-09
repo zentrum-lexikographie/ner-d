@@ -1,2 +1,8 @@
 assets
 corpus
+.venv/
+metrics
+training
+packages
+*.egg-info
+project.lock
