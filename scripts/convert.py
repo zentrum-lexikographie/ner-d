@@ -10,12 +10,11 @@ from spacy.tokens import DocBin
 from spacy.training.converters import conll_ner_to_docs
 from wasabi import msg
 
-project_dir = Path(__file__).parent.resolve()
+project_dir = Path(__file__).parents[1].resolve()
 
 assets_dir = project_dir / "assets"
 corpus_dir = project_dir / "corpus"
-ner_dir = corpus_dir / "ner"
-ner_dir.mkdir(parents=True, exist_ok=True)
+corpus_dir.mkdir(parents=True, exist_ok=True)
 
 
 doc_bins = {
@@ -373,7 +372,7 @@ msg.divider("Save splits to .spacy format")
 # save splits to spacy doc format
 for bucket, doc_bin in doc_bins.items():
     msg.info(f"{len(doc_bin)} documents (~{len(doc_bin)*32} sentences) in {bucket}.")
-    target_file = ner_dir / f"{bucket}.spacy"
+    target_file = corpus_dir / f"{bucket}.spacy"
     target_file.write_bytes(doc_bin.to_bytes())
 
 msg.divider("Process Conll2003 test set")
