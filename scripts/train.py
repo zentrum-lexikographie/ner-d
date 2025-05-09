@@ -29,7 +29,7 @@ except IOError:
 for model_type in model_types:
     prefix = f"{model_type}-{version}"
     msg.divider(f"Pipeline: {prefix}")
-    cfg_file_name = f"ner-d-{prefix}.cfg"
+    cfg_file_name = f"ner-d-{model_type}.cfg"
     cfg_path = configs_dir / cfg_file_name
     training_path = training_dir / prefix
     train(cfg_path, training_path, use_gpu=gpu_id)
