@@ -1,6 +1,5 @@
 import gzip
 import io
-import os
 import re
 import zipfile
 from pathlib import Path
