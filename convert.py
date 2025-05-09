@@ -375,3 +375,36 @@ for bucket, doc_bin in doc_bins.items():
     msg.info(f"{len(doc_bin)} documents (~{len(doc_bin)*32} sentences) in {bucket}.")
     target_file = ner_dir / f"{bucket}.spacy"
     target_file.write_bytes(doc_bin.to_bytes())
+
+msg.divider("Process Conll2003 test set")
+conll_splits = {
+    "train": assets_dir / "conll03.train",
+    "dev": assets_dir / "conll03.dev",
+    "test": assets_dir / "conll03.test",
+}
+tags_file = assets_dir / "tags.deu"
+
+with tags_file.open(encoding="iso-8859-1") as f_tags:
+    for bucket, file in conll_splits.items():
+        with file.open(encoding="iso-8859-1") as f:
+            data = []
+            for line in f:
+                tag_line = next(f_tags)
+                if line.startswith("-DOCSTART-"):
+                    continue
+                if not line.strip():
+                    assert tag_line.strip() == ""
+                    data.append(line)
+                else:
+                    token, _ = line.split(maxsplit=1)
+                    _, _, _, tag = tag_line.split()
+                    data.append("\t".join([token, tag]))
+            else:
+                data = "\n".join(data)
+                docs = conll_ner_to_docs(
+                    data, n_sents=32, merge_subtokens=True, no_print=True
+                )
+        db = DocBin(docs=docs, store_user_data=True)
+        msg.info(f"{len(db)} documents (~{len(db)*32} sentences) in conll03 {bucket}.")
+        target_file = corpus_dir / f"{bucket}_conll03.spacy"
+        target_file.write_bytes(db.to_bytes())

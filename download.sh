@@ -37,3 +37,12 @@ unzip assets/mobie.zip -d assets/
 
 # newseye
 wget -c "https://zenodo.org/records/4573313/files/NewsEye-GT-NER_EL_StD-v1.zip?download=1" -O assets/newseye.zip
+
+# conll2003
+wget -c "https://raw.githubusercontent.com/MaviccPRP/ger_ner_evals/master/corpora/conll2003/deu.testb" -O assets/conll03.test
+# testa corresponds to dev, cf. https://www.clips.uantwerpen.be/conll2003/ner/
+wget -c "https://raw.githubusercontent.com/MaviccPRP/ger_ner_evals/master/corpora/conll2003/deu.testa" -O assets/conll03.dev
+wget -c "https://raw.githubusercontent.com/MaviccPRP/ger_ner_evals/master/corpora/conll2003/deu.train" -O assets/conll03.train
+# updated annotations
+wget -c "https://www.clips.uantwerpen.be/conll2003/ner.tgz" -O assets/ner.tgz
+tar -zxv -C assets -f assets/ner.tgz ner/etc.2006/tags.deu  --strip-components=2
