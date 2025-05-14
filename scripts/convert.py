@@ -51,11 +51,11 @@ def iter_germeval(file):
 
 for bucket, file in germeval_splits.items():
     docs = conll_ner_to_docs(
-        iter_germeval(file), n_sents=32, merge_subtokens=True, no_print=True
+        iter_germeval(file), n_sents=10, merge_subtokens=True, no_print=True
     )
     db = DocBin(docs=docs, store_user_data=True)
     doc_bins[bucket].merge(db)
-    msg.info(f"{len(db)} documents (~{len(db)*32} sentences) in {bucket}.")
+    msg.info(f"{len(db)} documents (~{len(db)*10} sentences) in {bucket}.")
 
 msg.divider("Preprocessing SmartData")
 
@@ -118,13 +118,13 @@ def iter_smartdata(file, tag_mapping):
 for bucket, file in smartdata_splits.items():
     docs = conll_ner_to_docs(
         iter_smartdata(file, SMARTDATA_TO_CONLL),
-        n_sents=32,
+        n_sents=10,
         merge_subtokens=True,
         no_print=True,
     )
     db = DocBin(docs=docs, store_user_data=True)
     doc_bins[bucket].merge(db)
-    msg.info(f"{len(db)} documents (~{len(db)*32} sentences) in {bucket}.")
+    msg.info(f"{len(db)} documents (~{len(db)*10} sentences) in {bucket}.")
 
 
 def iter_neiss_data(file, tag_mapping):
@@ -150,13 +150,13 @@ STURM_TO_CONLL = {"pers": "PER", "place": "LOC", "B-date": "O", "I-date": "O"}
 for bucket, file in sturm_ed_splits.items():
     docs = conll_ner_to_docs(
         iter_neiss_data(file, STURM_TO_CONLL),
-        n_sents=32,
+        n_sents=10,
         merge_subtokens=True,
         no_print=True,
     )
     db = DocBin(docs=docs, store_user_data=True)
     doc_bins[bucket].merge(db)
-    msg.info(f"{len(db)} documents (~{len(db)*32} sentences) in {bucket}.")
+    msg.info(f"{len(db)} documents (~{len(db)*10} sentences) in {bucket}.")
 
 msg.divider("Preprocessing Arendt Edition")
 
@@ -180,13 +180,13 @@ ARENDT_TO_CONLL = {
 for bucket, file in arendt_splits.items():
     docs = conll_ner_to_docs(
         iter_neiss_data(file, ARENDT_TO_CONLL),
-        n_sents=32,
+        n_sents=10,
         merge_subtokens=True,
         no_print=True,
     )
     db = DocBin(docs=docs, store_user_data=True)
     doc_bins[bucket].merge(db)
-    msg.info(f"{len(db)} documents (~{len(db)*32} sentences) in {bucket}.")
+    msg.info(f"{len(db)} documents (~{len(db)*10} sentences) in {bucket}.")
 
 msg.divider("Preprocessing HisGermaNER")
 
@@ -215,13 +215,13 @@ def iter_his_german_ner(file):
 for bucket, file in hisGermaNER_splits.items():
     docs = conll_ner_to_docs(
         iter_his_german_ner(file),
-        n_sents=32,
+        n_sents=10,
         merge_subtokens=True,
         no_print=True,
     )
     db = DocBin(docs=docs, store_user_data=True)
     doc_bins[bucket].merge(db)
-    msg.info(f"{len(db)} documents (~{len(db)*32} sentences) in {bucket}.")
+    msg.info(f"{len(db)} documents (~{len(db)*10} sentences) in {bucket}.")
 
 msg.divider("Preprocessing CLEF HIPE")
 
@@ -262,12 +262,12 @@ def iter_hipe(file, tag_mapping):
 for bucket, file in hipe_splits.items():
     docs = conll_ner_to_docs(
         iter_hipe(file, HIPE_TO_CONLL),
-        n_sents=32,
+        n_sents=10,
         merge_subtokens=True,
         no_print=True,
     )
     db = DocBin(docs=docs, store_user_data=True)
-    msg.info(f"{len(db)} documents (~{len(db)*32} sentences) in {bucket}.")
+    msg.info(f"{len(db)} documents (~{len(db)*10} sentences) in {bucket}.")
     doc_bins[bucket].merge(db)
 
 msg.divider("Preprocessing MobIE dataset")
@@ -323,12 +323,12 @@ def iter_mobie(file, tag_mapping):
 for bucket, file in mobie_split.items():
     docs = conll_ner_to_docs(
         iter_mobie(file, MOBIE_TO_CONLL),
-        n_sents=32,
+        n_sents=10,
         merge_subtokens=True,
         no_print=True,
     )
     db = DocBin(docs=docs, store_user_data=True)
-    msg.info(f"{len(db)} documents (~{len(db)*32} sentences) in {bucket}.")
+    msg.info(f"{len(db)} documents (~{len(db)*10} sentences) in {bucket}.")
     doc_bins[bucket].merge(db)
 
 
@@ -361,18 +361,18 @@ def process_newseye(file):
 for bucket, file in newseye_split.items():
     docs = conll_ner_to_docs(
         process_newseye(file),
-        n_sents=32,
+        n_sents=10,
         merge_subtokens=True,
         no_print=True,
     )
     db = DocBin(docs=docs, store_user_data=True)
-    msg.info(f"{len(db)} documents (~{len(db)*32} sentences) in {bucket}.")
+    msg.info(f"{len(db)} documents (~{len(db)*10} sentences) in {bucket}.")
     doc_bins[bucket].merge(db)
 
 msg.divider("Save splits to .spacy format")
 # save splits to spacy doc format
 for bucket, doc_bin in doc_bins.items():
-    msg.info(f"{len(doc_bin)} documents (~{len(doc_bin)*32} sentences) in {bucket}.")
+    msg.info(f"{len(doc_bin)} documents (~{len(doc_bin)*10} sentences) in {bucket}.")
     target_file = corpus_dir / f"{bucket}.spacy"
     target_file.write_bytes(doc_bin.to_bytes())
 
@@ -402,9 +402,9 @@ with tags_file.open(encoding="iso-8859-1") as f_tags:
             else:
                 data = "\n".join(data)
                 docs = conll_ner_to_docs(
-                    data, n_sents=32, merge_subtokens=True, no_print=True
+                    data, n_sents=10, merge_subtokens=True, no_print=True
                 )
         db = DocBin(docs=docs, store_user_data=True)
-        msg.info(f"{len(db)} documents (~{len(db)*32} sentences) in conll03 {bucket}.")
+        msg.info(f"{len(db)} documents (~{len(db)*10} sentences) in conll03 {bucket}.")
         target_file = corpus_dir / f"{bucket}_conll03.spacy"
         target_file.write_bytes(db.to_bytes())
