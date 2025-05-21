@@ -1,13 +1,17 @@
+import bz2
 import gzip
 import io
+import random
 import re
 import zipfile
 from pathlib import Path
 
 import jsonstream
 from spacy.tokens import DocBin
-from spacy.training.converters import conll_ner_to_docs
+from spacy.training.converters import conll_ner_to_docs, iob_to_docs
 from wasabi import msg
+
+random.seed(0)
 
 project_dir = Path(__file__).parents[1].resolve()
 
@@ -365,6 +369,26 @@ for bucket, file in newseye_split.items():
         merge_subtokens=True,
         no_print=True,
     )
+    db = DocBin(docs=docs, store_user_data=True)
+    msg.info(f"{len(db)} documents (~{len(db)*10} sentences) in {bucket}.")
+    doc_bins[bucket].merge(db)
+
+msg.divider("Preprocessing WikiNER dataset")
+
+with bz2.open(assets_dir / "wikiner.bz2", "rt", encoding="utf-8") as f:
+    lines = [line.strip() for line in f.readlines() if line.strip()]
+random.shuffle(lines)
+dev_size = test_size = int(0.1 * len(lines))
+train_size = (len(lines) - dev_size) - test_size
+train_lines = lines[:train_size]
+dev_lines = lines[train_size : train_size + dev_size]
+test_lines = lines[train_size + dev_size :]
+wikiner_splits = {
+    "train": iob_to_docs("\n".join(train_lines), n_sents=10, no_print=True),
+    "dev": iob_to_docs("\n".join(dev_lines), n_sents=10, no_print=True),
+    "test": iob_to_docs("\n".join(test_lines), n_sents=10, no_print=True),
+}
+for bucket, docs in wikiner_splits.items():
     db = DocBin(docs=docs, store_user_data=True)
     msg.info(f"{len(db)} documents (~{len(db)*10} sentences) in {bucket}.")
     doc_bins[bucket].merge(db)

@@ -46,3 +46,6 @@ wget -c "https://raw.githubusercontent.com/MaviccPRP/ger_ner_evals/master/corpor
 # updated annotations
 wget -c "https://www.clips.uantwerpen.be/conll2003/ner.tgz" -O assets/ner.tgz
 tar -zxv -C assets -f assets/ner.tgz ner/etc.2006/tags.deu  --strip-components=2
+
+# wikiner
+wget -c "https://github.com/dice-group/FOX/raw/refs/tags/v2.3.0/input/Wikiner/aij-wikiner-de-wp3.bz2" -O assets/wikiner.bz2

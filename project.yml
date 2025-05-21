@@ -50,6 +50,7 @@ commands:
       - "assets/conll03.dev"
       - "assets/conll03.test"
       - "assets/conll03.train"
+      - "assets/wikiner.bz2"
 
   - name: preprocess
     help: "Map tag sets to PER/LOC/ORG/MISC tags. Convert to spaCy's data format
@@ -84,6 +85,7 @@ commands:
       - "assets/conll03.dev"
       - "assets/conll03.test"
       - "assets/conll03.train"
+      - "assets/wikiner.bz2"
     outputs:
       - "corpus/dev.spacy"
       - "corpus/test.spacy"
