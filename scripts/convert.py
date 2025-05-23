@@ -378,6 +378,10 @@ msg.divider("Preprocessing WikiNER dataset")
 with bz2.open(assets_dir / "wikiner.bz2", "rt", encoding="utf-8") as f:
     lines = [line.strip() for line in f.readlines() if line.strip()]
 random.shuffle(lines)
+# reduce amount of WikiNER data
+max_size = sum(len(d) for d in doc_bins.values()) * 10
+lines = lines[:max_size]
+
 dev_size = test_size = int(0.1 * len(lines))
 train_size = (len(lines) - dev_size) - test_size
 train_lines = lines[:train_size]
