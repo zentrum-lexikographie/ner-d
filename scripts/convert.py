@@ -48,7 +48,7 @@ def iter_germeval(file):
                 data.append(" ".join(line[1:3]))
     data = "\n".join(data)
     # remove *part from tags
-    data = re.sub(r"(LOC|PER|OTH|ORG)(deriv|part)", r"O", data)
+    data = re.sub(r"[BI]-(LOC|PER|OTH|ORG)(deriv|part)", r"O", data)
     data = re.sub(r"\bOTH\b", "MISC", data)
     return data
 
