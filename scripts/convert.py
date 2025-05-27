@@ -260,6 +260,7 @@ def iter_hipe(file, tag_mapping):
             "(%s)" % "|".join(map(re.escape, tag_mapping.keys()))
         )
         data = tag_substitution_pattern.sub(lambda x: tag_mapping[x.group()], data)
+        data = re.sub(r"[BI]-O\b", "O", data)
     return data
 
 
@@ -321,6 +322,7 @@ def iter_mobie(file, tag_mapping):
             r"(%s)(?!-)" % "|".join(map(re.escape, tag_mapping.keys()))
         )
         data = tag_substitution_pattern.sub(lambda x: tag_mapping[x.group()], data)
+        data = re.sub(r"[BI]-O\b", "O", data)
         return data
 
 
