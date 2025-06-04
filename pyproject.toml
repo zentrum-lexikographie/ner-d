@@ -25,7 +25,7 @@ dev = [
     "isort"
 ]
 cpu = ["spacy"]
-gpu = ["spacy[transformers,cuda11x]"]
+gpu = ["spacy[transformers,cuda12x]"]
 
 [project.urls]
 Homepage = "https://github.com/zentrum-lexikographie/ner-d"
