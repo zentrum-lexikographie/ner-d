@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "ner-d"
-description = "German NER spaCy models trained on a collection of gold standard corpora."
+description = "German NER spaCy models trained on a collection of gold and silver standard corpora."
 authors = [
     {name = "Luise Köhler", email = "luise.koehler@bbaw.de"},
     {name = "Gregor Middell", email = "gregor.middell@bbaw.de"}
@@ -24,7 +24,6 @@ dev = [
     "mypy",
     "isort"
 ]
-cpu = ["spacy"]
 gpu = ["spacy[transformers,cuda12x]"]
 
 [project.urls]
