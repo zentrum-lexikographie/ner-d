@@ -1,0 +1,6 @@
+gdown
+spacy>=3.8.0
+wasabi
+jsonstream
+build
+spacy-huggingface-hub

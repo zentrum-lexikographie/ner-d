@@ -1,0 +1,40 @@
+[build-system]
+requires = ["setuptools>=66.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ner-d"
+description = "German NER spaCy models trained on a collection of gold and silver standard corpora."
+authors = [
+    {name = "Luise Köhler", email = "luise.koehler@bbaw.de"},
+    {name = "Gregor Middell", email = "gregor.middell@bbaw.de"}
+]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Programming Language :: Python :: 3",
+    "Topic :: Text Processing :: Linguistic",
+    "Framework :: spaCy",
+]
+dynamic = ["version", "dependencies"]
+requires-python = ">= 3.11"
+
+[project.optional-dependencies]
+dev = [
+    "flake8",
+    "mypy",
+    "isort"
+]
+gpu = ["spacy[transformers,cuda12x]"]
+
+[project.urls]
+Homepage = "https://github.com/zentrum-lexikographie/ner-d"
+
+[tool.isort]
+profile = "black"
+
+[tool.setuptools]
+packages = []
+
+[tool.setuptools.dynamic]
+version = {file = ["VERSION"]}
+dependencies = {file=["requirements.txt"]}
