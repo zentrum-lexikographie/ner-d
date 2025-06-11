@@ -41,7 +41,7 @@ python hf-publish.py
 ### Clean-Up
 This removes the outputs of the `preprocess` and `train` step.
 ```
-spacy project clean
+spacy project run clean
 ```
 
 ## Datasets used for training
@@ -50,6 +50,6 @@ spacy project clean
 * J. Zöllner, K. Sperfeld, C. Wick, R. Labahn (2021). Optimizing Small BERTs Trained for German NER. Information 2021, 12, 443.
 * M. Ehrmann, M. Romanello, A. Flückiger, and S. Clematide (2020). Extended Overview of CLEF HIPE 2020: Named Entity Processing on Historical Newspapers in Working Notes of CLEF 2020 - Conference and Labs of the Evaluation Forum, Thessaloniki, Greece, 2020, vol. 2696, p. 38. doi: 10.5281/zenodo.4117566.
 * L. Hennig, P. T. Truong, A. Gabryszak (2021). Mobie: A German Dataset for Named Entity Recognition, Entity Linking and Relation Extraction in the Mobility Domain. arXiv preprint arXiv:2108.06955.
-* A. Hamdi, E. Linhares Pontes, E. Boros, T. T. H. Nguyen, G. Hackl, J. G. Moreno, A- Doucet (2021). Multilingual Dataset for Named Entity Recognition, Entity Linking and Stance Detection in Historical Newspapers (V1.0) [Data set]. Zenodo. https://doi.org/10.5281/zenodo.4573313
+* A. Hamdi, E. Linhares Pontes, E. Boros, T. T. H. Nguyen, G. Hackl, J. G. Moreno, A. Doucet (2021). Multilingual Dataset for Named Entity Recognition, Entity Linking and Stance Detection in Historical Newspapers (V1.0) [Data set]. Zenodo. https://doi.org/10.5281/zenodo.4573313
 * J. Nothman, N. Ringland, W. Radford, T. Murphy, J. R. Curran (2013). Learning Multilingual Named Entity Recognition from Wikipedia. Artificial Intelligence, 194, 151-175.
 * S. Schweter (2025). HisGermaNER (Revision 83571b3). doi: 10.57967/hf/5770, https://huggingface.co/datasets/stefan-it/HisGermaNER.
